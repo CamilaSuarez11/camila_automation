@@ -16,14 +16,19 @@ public class SoatTest extends BaseConfigSelenium {
    */
   @Test
   public void validateFeaturesVehicle() {
+
     softAssertions.assertThat(soatPage.getAmountSoat()).isEqualTo(soatPage.getConstantsAmountSoat());
     softAssertions.assertThat(soatPage.getLicensePlate()).isEqualTo(soatPage.getConstantsLicensePlate());
     softAssertions.assertThat(soatPage.getYearOfModel()).isEqualTo(soatPage.getConstantsYearOfModel());
     softAssertions.assertThat(soatPage.getBrandVehicle()).isEqualTo(soatPage.getConstantsBrandVehicle());
     softAssertions.assertThat(soatPage.getCylindricalVehicle()).isEqualTo(soatPage.getConstantsCylindricalVehicle());
+
     soatPage.clickButtonContinue();
+
     softAssertions.assertThat(soatPage.soatCheckout()).isTrue();
+
     soatPage.getScreenshot("validateFeatureVehicle");
+
     softAssertions.assertAll();
   }
 
@@ -33,22 +38,13 @@ public class SoatTest extends BaseConfigSelenium {
   @Test
   @Tag("SmokeTest")
   public void validateData() {
-    soatPage.clickButtonContinue();
-    soatPage.sendIdentificationNumber();
-    soatPage.sendNames();
-    soatPage.sendSurname();
-    soatPage.sendSecondSurname();
-    soatPage.clickGender();
-    soatPage.clickFemale();
-    soatPage.clickBirthDate();
-    soatPage.clickMonth();
-    soatPage.clickYear();
-    soatPage.clickDay();
-    soatPage.sendCellPhone();
-    soatPage.sendDirection();
-    soatPage.sendEmail();
+
+    soatPage.stepsSendData();
+
     softAssertions.assertThat(soatPage.checkoutStepThree()).isTrue();
+
     soatPage.getScreenshot("validateData");
+
     softAssertions.assertAll();
   }
 
@@ -57,6 +53,7 @@ public class SoatTest extends BaseConfigSelenium {
    */
   @Test
   public void validateEmptyErrors() {
+
     soatPage.clickButtonContinue();
     soatPage.sendEmptyFields();
 
@@ -68,7 +65,9 @@ public class SoatTest extends BaseConfigSelenium {
     softAssertions.assertThat(soatPage.getErrorCellPhone(soatPage.getConstantsErrorCellPhone())).isTrue();
     softAssertions.assertThat(soatPage.getErrorAddress(soatPage.getConstantsErrorAddress())).isTrue();
     softAssertions.assertThat(soatPage.getErrorEmail()).isEqualTo(soatPage.getConstantsErrorEmail());
+
     soatPage.getScreenshot("validateEmptyErrors");
+
     softAssertions.assertAll();
   }
 

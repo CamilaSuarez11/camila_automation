@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -21,28 +20,14 @@ public class GeneralUtilities extends BaseConfigSelenium {
     ClassLoader loader = getClass().getClassLoader();
 
     try {
-
       InputStream inputStreamConstants = loader.getResourceAsStream("constants.properties");
 
       loadConstants.load(inputStreamConstants);
-
     } catch (IOException exc) {
       throw new RuntimeException("Properties files not found", exc);
     }
 
   }
-
-  /**
-   * Method that sleep a specific time.
-   */
-  public  void waitTime(int time) {
-    try {
-      Thread.sleep(time);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-  }
-
 
   /**
    * Method that take screenshot
@@ -69,21 +54,6 @@ public class GeneralUtilities extends BaseConfigSelenium {
     } catch (Exception exc) {
       throw new RuntimeException("Route not found", exc);
     }
-  }
-
-  /**
-   * Method to check if an element is visible on the screen.
-   *
-   * @return boolean
-   */
-  public boolean existElement(By id, WebDriver webDriver) {
-    driver = webDriver;
-    try {
-      driver.findElement(id);
-    } catch (Exception e) {
-      return false;
-    }
-    return true;
   }
 
 }

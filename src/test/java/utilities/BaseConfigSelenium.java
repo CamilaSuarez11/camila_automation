@@ -1,52 +1,25 @@
 package utilities;
 
-import java.io.File;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class  BaseConfigSelenium {
+public class BaseConfigSelenium {
 
   protected WebDriver driver;
-  private static ChromeDriverService service;
   protected WebDriverWait wait;
 
   @BeforeEach
-  public void init() throws IOException {
-//    driver = new RemoteWebDriver(service.getUrl(), new ChromeOptions());
-    driver = new RemoteWebDriver(
-        new URL("http://127.0.0.1:9515"),
-        new ChromeOptions());
-
-//    configCapabilities ("2");
-  }
-
-  @AfterClass
-  public static void stopService() {
-    service.stop();
-  }
-
-  @BeforeClass
-  public static void createAndStartService() throws IOException {
-    service = new ChromeDriverService.Builder()
-        .usingDriverExecutable(new File("chromedriver"))
-        .usingAnyFreePort()
-        .build();
-    service.start();
+  public void init() {
+    configCapabilities("MacChrome");
   }
 
   @AfterEach
@@ -60,34 +33,31 @@ public class  BaseConfigSelenium {
   }
 
   /**
-   * @param flag values required = WinChrome (Chrome in Windows) MacChrome ( Chrome in Mac) WinFirefox(Firefox in Windows) MacFirefox(Firefox in Mac
-   * @throws MalformedURLException
+   * @param flag values required = WinChrome (Chrome in Windows) MacChrome ( Chrome in Mac)
+   * WinFirefox(Firefox in Windows) MacFirefox(Firefox in Mac
    */
-  public void configCapabilities(String flag) throws MalformedURLException {
+  public void configCapabilities(String flag){
     ChromeOptions options = new ChromeOptions();
-        options.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
-    	options.addArguments("--headless");
+    options.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
 
-    if(flag == "WinChrome") {
+
+    if (flag == "WinChrome") {
       System.setProperty("webdriver.chrome.driver", "chromedriverWIN.exe");
       driver = new ChromeDriver(options);
-    } else if(flag == "MacChrome") {
+    } else if (flag == "MacChrome") {
       System.setProperty("webdriver.chrome.driver", "chromedriver");
-
       driver = new ChromeDriver(options);
-    } else if(flag == "MacFirefox") {
+    } else if (flag == "MacFirefox") {
       System.setProperty("webdriver.firefox.driver", "geckodriver");
       driver = new FirefoxDriver();
-    }else if(flag == "WinFirefox") {
+    } else if (flag == "WinFirefox") {
       System.setProperty("webdriver.firefox.driver", "geckodriver.exe");
       driver = new FirefoxDriver();
-    }else {
-      driver = new RemoteWebDriver(service.getUrl(), new ChromeOptions());
     }
 
     driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     driver.manage().window().fullscreen();
-     wait = new WebDriverWait(driver, 60);
+    wait = new WebDriverWait(driver, 60);
   }
 
 }

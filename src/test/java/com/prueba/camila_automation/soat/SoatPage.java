@@ -518,4 +518,24 @@ public class SoatPage {
 
   }
 
+  /**
+   * Steps send data
+   */
+  public void stepsSendData(){
+    clickButtonContinue();
+    sendIdentificationNumber();
+    sendNames();
+    sendSurname();
+    sendSecondSurname();
+    clickGender();
+    clickFemale();
+    clickBirthDate();
+    clickMonth();
+    clickYear();
+    clickDay();
+    sendCellPhone();
+    sendDirection();
+    sendEmail();
+  }
+
 }
