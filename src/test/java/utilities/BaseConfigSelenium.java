@@ -6,6 +6,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
@@ -25,9 +27,23 @@ public class  BaseConfigSelenium {
 
   @BeforeEach
   public void init() throws IOException {
-    configCapabilities ("2");
+//    driver = new RemoteWebDriver(service.getUrl(), new ChromeOptions());
+    driver = new RemoteWebDriver(
+        new URL("http://127.0.0.1:9515"),
+        new ChromeOptions());
+
+//    configCapabilities ("2");
+  }
+
+  @AfterClass
+  public static void stopService() {
+    service.stop();
+  }
+
+  @BeforeClass
+  public static void createAndStartService() throws IOException {
     service = new ChromeDriverService.Builder()
-        .usingDriverExecutable(new File("chromedriver"))
+        .usingDriverExecutable(new File("/path/to/chromedriver"))
         .usingAnyFreePort()
         .build();
     service.start();

@@ -16,6 +16,9 @@ run_test: &run_test
     - restore_cache:
         key: v1-gradle-cache-{{ checksum "build.gradle" }}
     - run:
+        name: Add Chrome
+        command: ./chromedriver
+    - run:
         name: Run Tests
         command: |
           gradle test
