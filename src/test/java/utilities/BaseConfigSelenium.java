@@ -43,7 +43,7 @@ public class  BaseConfigSelenium {
   @BeforeClass
   public static void createAndStartService() throws IOException {
     service = new ChromeDriverService.Builder()
-        .usingDriverExecutable(new File("/path/to/chromedriver"))
+        .usingDriverExecutable(new File("chromedriver"))
         .usingAnyFreePort()
         .build();
     service.start();
