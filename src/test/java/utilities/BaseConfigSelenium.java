@@ -1,5 +1,7 @@
 package utilities;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collections;
@@ -8,6 +10,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -17,11 +20,17 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class  BaseConfigSelenium {
 
   protected WebDriver driver;
+  private static ChromeDriverService service;
   protected WebDriverWait wait;
 
   @BeforeEach
-  public void init() throws MalformedURLException {
-    configCapabilities ("MacChrome");
+  public void init() throws IOException {
+    configCapabilities ("2");
+    service = new ChromeDriverService.Builder()
+        .usingDriverExecutable(new File("chromedriver"))
+        .usingAnyFreePort()
+        .build();
+    service.start();
   }
 
   @AfterEach
@@ -48,6 +57,7 @@ public class  BaseConfigSelenium {
       driver = new ChromeDriver(options);
     } else if(flag == "MacChrome") {
       System.setProperty("webdriver.chrome.driver", "chromedriver");
+
       driver = new ChromeDriver(options);
     } else if(flag == "MacFirefox") {
       System.setProperty("webdriver.firefox.driver", "geckodriver");
@@ -56,8 +66,7 @@ public class  BaseConfigSelenium {
       System.setProperty("webdriver.firefox.driver", "geckodriver.exe");
       driver = new FirefoxDriver();
     }else {
-      DesiredCapabilities dc = DesiredCapabilities.chrome();
-      driver = new RemoteWebDriver(new URL("http://0.0.0.0:4444/wd/hub"), dc);
+      driver = new RemoteWebDriver(service.getUrl(), new ChromeOptions());
     }
 
     driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
