@@ -1,0 +1,16 @@
+.classpath
+.project
+.settings/
+target/
+.idea/
+.DS_Store
+dependency-reduced-pom.xml
+.bash_profile
+serviciosrest.iml
+.gradle/
+/build/
+*.class
+*.log
+*.jar
+local.properties
+out/
