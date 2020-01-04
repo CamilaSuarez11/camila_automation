@@ -41,7 +41,7 @@ public class  BaseConfigSelenium {
   public void configCapabilities(String flag) throws MalformedURLException {
     ChromeOptions options = new ChromeOptions();
         options.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
-//    	options.addArguments("--headless");
+    	options.addArguments("--headless");
 
     if(flag == "WinChrome") {
       System.setProperty("webdriver.chrome.driver", "chromedriverWIN.exe");

@@ -1,0 +1,48 @@
+version: 2
+
+run_test: &run_test
+  steps:
+    - checkout
+    - restore_cache:
+        key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+    - restore_cache:
+        key: v1-gradle-cache-{{ checksum "build.gradle" }}
+    - run:
+        name: Run Tests
+        command: |
+          gradle test
+    - run:
+        name: Save test results
+        command: |
+          mkdir -p ~/test-results/junit/
+          find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/junit/ \;
+        when: always
+    - save_cache:
+        paths:
+          - ~/.gradle/wrapper
+        key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+    - save_cache:
+        paths:
+          - ~/.gradle/caches
+        key: v1-gradle-cache-{{ checksum "build.gradle" }}
+    - store_test_results:
+        path: ~/test-results
+    - store_artifacts:
+        path: ~/test-results/junit
+
+jobs:
+
+  deploy_prod:
+    docker:
+      - image: circleci/openjdk:8u222-jdk-stretch
+    <<: *run_test
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - deploy_prod:
+          filters:
+            branches:
+              only:
+                - master
