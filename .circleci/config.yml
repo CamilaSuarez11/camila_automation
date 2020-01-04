@@ -3,15 +3,14 @@ version: 2
 run_test: &run_test
   steps:
     - checkout
+    - run: mkdir test-reports
     - run:
         name: Download Selenium
-        command: |
-          curl -O http://selenium-release.storage.googleapis.com/3.5/selenium-server-standalone-3.5.3.jar
+        command: curl -O http://selenium-release.storage.googleapis.com/3.5/selenium-server-standalone-3.5.3.jar
     - run:
         name: Start Selenium
-        command: |
-          java -jar selenium-server-standalone-3.5.3.jar -log test-reports/selenium.log
-          background: true
+        command: java -jar selenium-server-standalone-3.5.3.jar -log test-reports/selenium.log
+        background: true
     - restore_cache:
         key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
     - restore_cache:
