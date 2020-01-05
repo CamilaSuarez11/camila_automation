@@ -18,7 +18,6 @@ public class GeneralUtilities extends BaseConfigSelenium {
    */
   public void getProperties() {
     ClassLoader loader = getClass().getClassLoader();
-
     try {
       InputStream inputStreamConstants = loader.getResourceAsStream("constants.properties");
 
@@ -26,7 +25,6 @@ public class GeneralUtilities extends BaseConfigSelenium {
     } catch (IOException exc) {
       throw new RuntimeException("Properties files not found", exc);
     }
-
   }
 
   /**

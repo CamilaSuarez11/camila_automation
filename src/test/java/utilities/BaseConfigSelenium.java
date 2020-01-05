@@ -22,7 +22,7 @@ public class BaseConfigSelenium {
 
   @BeforeEach
   public void init() throws IOException {
-    configCapabilities("2");
+    configCapabilities("CI");
   }
 
   @AfterEach
@@ -60,7 +60,6 @@ public class BaseConfigSelenium {
       DesiredCapabilities dc = DesiredCapabilities.chrome();
       driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), options);
     }
-
 
     driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     driver.manage().window().fullscreen();
