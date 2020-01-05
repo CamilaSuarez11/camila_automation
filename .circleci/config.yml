@@ -23,6 +23,33 @@ run_selenium: &run_selenium
     - run:
         name: install selenium-node
         command: docker run -d --rm --net grid -e HUB_HOST=selenium-hub -v /dev/shm:/dev/shm selenium/node-chrome:3.11.0
+    - checkout
+    - restore_cache:
+        key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+    - restore_cache:
+        key: v1-gradle-cache-{{ checksum "build.gradle" }}
+    - run:
+        name: Run Tests
+        command: |
+          gradle test
+    - run:
+        name: Save test results
+        command: |
+          mkdir -p ~/test-results/junit/
+          find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/junit/ \;
+        when: always
+    - save_cache:
+        paths:
+          - ~/.gradle/wrapper
+        key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+    - save_cache:
+        paths:
+          - ~/.gradle/caches
+        key: v1-gradle-cache-{{ checksum "build.gradle" }}
+    - store_test_results:
+        path: ~/test-results
+    - store_artifacts:
+        path: ~/test-results/junit
 
 run_test: &run_test
   steps:
