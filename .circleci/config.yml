@@ -27,7 +27,7 @@ run_test: &run_test
           # run tests!
     - run:
         name: run tests
-        command: node SoatTest.java
+        command: node src/test/java/soat/SoatTest.java
 
     - run:
         name: Save test results
