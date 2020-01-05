@@ -17,9 +17,18 @@ run_test: &run_test
     - run:
         name: install selenium-node
         command: docker run -d --rm --net grid -e HUB_HOST=selenium-hub -v /dev/shm:/dev/shm selenium/node-chrome:3.11.0
+#    - run:
+#        name: Run Tests
+#        command: gradle test
     - run:
-        name: Run Tests
-        command: gradle test
+        name: install-npm
+        command: npm install
+
+          # run tests!
+    - run:
+        name: run tests
+        command: node SoatTest.java
+
     - run:
         name: Save test results
         command: |
