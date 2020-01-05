@@ -36,7 +36,6 @@ public class SoatTest extends BaseConfigSelenium {
    * Check validate data
    */
   @Test
-  @Tag("SmokeTest")
   public void validateData() {
 
     soatPage.stepsSendData();
