@@ -1,7 +1,6 @@
 package utilities;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
@@ -58,7 +57,8 @@ public class BaseConfigSelenium {
       driver = new FirefoxDriver();
     }else {
       DesiredCapabilities dc = DesiredCapabilities.chrome();
-      driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), options);
+      dc.setCapability(ChromeOptions.CAPABILITY, options);
+      driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), dc);
     }
 
     driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);

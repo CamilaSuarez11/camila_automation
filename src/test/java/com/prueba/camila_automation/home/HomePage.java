@@ -79,7 +79,10 @@ public class HomePage {
     wait.until(ExpectedConditions.elementToBeClickable(wantQuoteButtonLocator));
     driver.findElement(wantQuoteButtonLocator).click();
 
-    if(!driver.findElement(errorAuthorizationLocator).isDisplayed() || !driver.findElement(screenAboutVehicleLocator).isDisplayed() ){
+
+    if(driver.findElement(errorAuthorizationLocator).isDisplayed() || driver.findElement(screenAboutVehicleLocator).isDisplayed()){
+      //
+    } else if(!driver.findElement(errorAuthorizationLocator).isDisplayed() || !driver.findElement(screenAboutVehicleLocator).isDisplayed() ){
       clickWantQuoteButton();
     }
   }
