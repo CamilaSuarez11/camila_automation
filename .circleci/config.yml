@@ -1,0 +1,70 @@
+version: 2
+
+run_test: &run_test
+  steps:
+    - checkout
+    - setup_remote_docker
+    - restore_cache:
+        key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+    - restore_cache:
+        key: v1-gradle-cache-{{ checksum "build.gradle" }}
+    - run:
+        name: create docker network
+        command: docker network create grid
+    - run:
+        name: install selenium-hub
+        command: docker run -d --rm -p 4444:4444 --net grid --name selenium-hub selenium/hub:3.11.0
+    - run:
+        name: install selenium-node
+        command: docker run -d --rm --net grid -e HUB_HOST=selenium-hub -v /dev/shm:/dev/shm selenium/node-chrome:3.11.0
+    - run:
+        name: Run Tests
+        command: |
+          gradle test
+    - run:
+        name: Save test results
+        command: |
+          mkdir -p ~/test-results/junit/
+          find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/junit/ \;
+        when: always
+    - save_cache:
+        paths:
+          - ~/.gradle/wrapper
+        key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+    - save_cache:
+        paths:
+          - ~/.gradle/caches
+        key: v1-gradle-cache-{{ checksum "build.gradle" }}
+    - store_test_results:
+        path: ~/test-results
+    - store_artifacts:
+        path: ~/test-results/junit
+
+jobs:
+
+  deploy_prod:
+    build:
+      docker:
+        # specify the version you desire here
+        - image: circleci/node:7.10
+        - image: selenium/standalone-chrome:3.11.0
+
+        # Specify service dependencies here if necessary
+        # CircleCI maintains a library of pre-built images
+        # documented at https://circleci.com/docs/2.0/circleci-images/
+        # - image: circleci/mongo:3.4.4
+
+      working_directory: ~/repo
+    <<: *run_test
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - deploy_prod:
+          filters:
+            branches:
+              only:
+                - master
+                - /automation\/.*/
+
