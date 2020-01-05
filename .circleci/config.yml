@@ -19,15 +19,15 @@ run_test: &run_test
         key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
     - restore_cache:
         key: v1-gradle-cache-{{ checksum "build.gradle" }}
-    - run:
-        name: create docker network
-        command: docker network create grid
-    - run:
-        name: install selenium-hub
-        command: docker run -d --rm -p 4444:4444 --net grid --name selenium-hub selenium/hub:3.11.0
-    - run:
-        name: install selenium-node
-        command: docker run -d --rm --net grid -e HUB_HOST=selenium-hub -v /dev/shm:/dev/shm selenium/node-chrome:3.11.0
+#    - run:
+#        name: create docker network
+#        command: docker network create grid
+#    - run:
+#        name: install selenium-hub
+#        command: docker run -d --rm -p 4444:4444 --net grid --name selenium-hub selenium/hub:3.11.0
+#    - run:
+#        name: install selenium-node
+#        command: docker run -d --rm --net grid -e HUB_HOST=selenium-hub -v /dev/shm:/dev/shm selenium/node-chrome:3.11.0
     - run: gradle test
 #        name: Run Tests
 #        command:
