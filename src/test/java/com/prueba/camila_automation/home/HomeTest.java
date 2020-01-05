@@ -2,6 +2,7 @@ package com.prueba.camila_automation.home;
 
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import utilities.BaseConfigSelenium;
 
@@ -30,6 +31,7 @@ public class HomeTest extends BaseConfigSelenium {
    * Check error authorization
    */
   @Test
+  @Tag("SmokeTest")
   public void errorAuthorization() {
     homePage.sendLicensePlate();
     homePage.waitInvisibilityGiftLoading();
