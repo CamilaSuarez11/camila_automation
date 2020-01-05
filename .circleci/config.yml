@@ -2,6 +2,7 @@ version: 2
 
 run_selenium: &run_selenium
   steps:
+    - checkout
     - setup_remote_docker
     - run: mkdir test-reports
     - run:
@@ -23,7 +24,6 @@ run_selenium: &run_selenium
     - run:
         name: install selenium-node
         command: docker run -d --rm --net grid -e HUB_HOST=selenium-hub -v /dev/shm:/dev/shm selenium/node-chrome:3.11.0
-    - checkout
     - restore_cache:
         key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
     - restore_cache:
