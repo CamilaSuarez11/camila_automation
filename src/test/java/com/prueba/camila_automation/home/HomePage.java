@@ -78,10 +78,8 @@ public class HomePage {
   public void clickWantQuoteButton() {
     wait.until(ExpectedConditions.elementToBeClickable(wantQuoteButtonLocator));
     driver.findElement(wantQuoteButtonLocator).click();
-    if(!displayedErrorAuthorization()){
-      driver.findElement(wantQuoteButtonLocator).click();
-    } else if (!displayedScreenAboutVehicle())
-    {
+
+    if(!driver.findElement(errorAuthorizationLocator).isDisplayed() || !driver.findElement(screenAboutVehicleLocator).isDisplayed() ){
       driver.findElement(wantQuoteButtonLocator).click();
     }
   }
