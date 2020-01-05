@@ -44,7 +44,9 @@ run_test: &run_test
 jobs:
   deploy_prod:
     docker:
+      - image: circleci/node:7.10
       - image: selenium/standalone-chrome:3.11.0
+        working_directory: ~/repo
     <<: *run_test
 
 workflows:

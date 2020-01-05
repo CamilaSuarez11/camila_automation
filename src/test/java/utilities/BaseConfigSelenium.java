@@ -1,5 +1,6 @@
 package utilities;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collections;
@@ -10,6 +11,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class BaseConfigSelenium {
@@ -18,8 +21,8 @@ public class BaseConfigSelenium {
   protected WebDriverWait wait;
 
   @BeforeEach
-  public void init() {
-    configCapabilities("MacChrome");
+  public void init() throws IOException {
+    configCapabilities("2");
   }
 
   @AfterEach
@@ -36,7 +39,7 @@ public class BaseConfigSelenium {
    * @param flag values required = WinChrome (Chrome in Windows) MacChrome ( Chrome in Mac)
    * WinFirefox(Firefox in Windows) MacFirefox(Firefox in Mac
    */
-  public void configCapabilities(String flag){
+  public void configCapabilities(String flag) throws IOException {
     ChromeOptions options = new ChromeOptions();
     options.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
 
@@ -53,7 +56,11 @@ public class BaseConfigSelenium {
     } else if (flag == "WinFirefox") {
       System.setProperty("webdriver.firefox.driver", "geckodriver.exe");
       driver = new FirefoxDriver();
+    }else {
+      DesiredCapabilities dc = DesiredCapabilities.chrome();
+      driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), dc);
     }
+
 
     driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     driver.manage().window().fullscreen();
