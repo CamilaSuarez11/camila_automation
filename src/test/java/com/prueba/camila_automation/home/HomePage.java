@@ -80,7 +80,7 @@ public class HomePage {
     driver.findElement(wantQuoteButtonLocator).click();
 
     if(!driver.findElement(errorAuthorizationLocator).isDisplayed() || !driver.findElement(screenAboutVehicleLocator).isDisplayed() ){
-      driver.findElement(wantQuoteButtonLocator).click();
+      clickWantQuoteButton();
     }
   }
 
