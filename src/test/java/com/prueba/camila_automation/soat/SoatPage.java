@@ -199,6 +199,7 @@ public class SoatPage {
    * Method that click button continue
    */
   public void clickButtonContinue() {
+    scroll();
     wait.until(ExpectedConditions.elementToBeClickable(continueButtonLocator));
     driver.findElement(continueButtonLocator).click();
   }
@@ -516,6 +517,13 @@ public class SoatPage {
   public void getScreenshot(String archiveName) {
     generalUtilities.takeSnapShot(driver,archiveName) ;
 
+  }
+
+  /**
+   * Method that scroll page
+   */
+  public void scroll(){
+    generalUtilities.downScrollPage(driver);
   }
 
   /**

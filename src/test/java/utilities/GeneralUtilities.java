@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -52,6 +53,17 @@ public class GeneralUtilities extends BaseConfigSelenium {
     } catch (Exception exc) {
       throw new RuntimeException("Route not found", exc);
     }
+  }
+
+  /**
+   * Method to down scroll page.
+   *
+   * @return void
+   */
+  public void downScrollPage(WebDriver webDriver) {
+    driver = webDriver;
+    JavascriptExecutor jse = (JavascriptExecutor) driver;
+    jse.executeScript("scroll(0, 850)");
   }
 
 }
