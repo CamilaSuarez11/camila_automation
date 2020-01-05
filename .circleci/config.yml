@@ -41,19 +41,11 @@ run_test: &run_test
         path: ~/test-results/junit
 
 jobs:
-
   deploy_prod:
-      docker:
-        # specify the version you desire here
-        - image: circleci/node:7.10
-        - image: selenium/standalone-chrome:3.11.0
-
-        # Specify service dependencies here if necessary
-        # CircleCI maintains a library of pre-built images
-        # documented at https://circleci.com/docs/2.0/circleci-images/
-        # - image: circleci/mongo:3.4.4
-
-      working_directory: ~/repo
+    docker:
+      - image: circleci/node:7.10
+      - image: selenium/standalone-chrome:3.11.0
+        working_directory: ~/repo
     <<: *run_test
 
 workflows:
