@@ -19,9 +19,7 @@ run_test: &run_test
         command: docker run -d --rm --net grid -e HUB_HOST=selenium-hub -v /dev/shm:/dev/shm selenium/node-chrome:3.11.0
     - run:
         name: Run Tests
-        command: |
-          chmod +x ./gradlew
-          ./gradlew test
+        command: gradle test
     - run:
         name: Save test results
         command: |
